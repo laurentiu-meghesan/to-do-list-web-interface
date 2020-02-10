@@ -6,8 +6,8 @@ window.ToDoList = {
         $.ajax({
             url: ToDoList.API_BASE_URL,
             method: "GET"
-        }).done(function (respone) {
-            console.log(respone);
+        }).done(function (response) {
+            console.log(response);
         })
     },
 
