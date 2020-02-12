@@ -12,7 +12,7 @@ window.ToDoList = {
         })
     },
 
-    createTask: function(){
+    createTask: function () {
 
         let descriptionValue = $("#description-field").val();
         let deadlineValue = $("#deadline-field").val();
@@ -26,7 +26,7 @@ window.ToDoList = {
         $.ajax({
             url: ToDoList.API_BASE_URL,
             method: "POST",
-        //    also know as MIME type
+            //    also know as MIME type
             contentType: "application/json",
             data: JSON.stringify(requestBody)
         }).done(function () {
@@ -35,11 +35,27 @@ window.ToDoList = {
 
     },
 
+    updateTask: function (id, done) {
+
+        let requestBody = {
+            done: done
+        };
+
+        $.ajax({
+            url: ToDoList.API_BASE_URL + "?id=" + id,
+            method: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(requestBody)
+        }).done(function () {
+            ToDoList.getTasks()
+        })
+    },
+
     getTaskRow: function (task) {
         //spread operator (...)
         let formattedDeadline = new Date(...task.deadline).toLocaleDateString("ro");
 
-        let checkedAttribute = task.done ? " checked": "";
+        let checkedAttribute = task.done ? " checked" : "";
 
         return `<tr>
             <td>${task.description}</td>
@@ -66,6 +82,19 @@ window.ToDoList = {
             event.preventDefault();
 
             ToDoList.createTask();
+        });
+
+        //delegate is necessary here because the element .mark-done is not present in the page
+        // from the beginning, but injected later on
+        $("#tasks-table").delegate(".mark-done", "change", function (event) {
+
+            event.preventDefault();
+
+            let taskId = $(this).data("id");
+            let checked =  $(this).is("checked");
+
+            ToDoList.updateTask(taskId, checked);
+
         })
 
     }
