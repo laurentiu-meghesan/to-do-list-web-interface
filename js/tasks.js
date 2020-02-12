@@ -100,7 +100,7 @@ window.ToDoList = {
             event.preventDefault();
 
             let taskId = $(this).data("id");
-            let checked = $(this).is("checked");
+            let checked = $(this).is(":checked");
 
             ToDoList.updateTask(taskId, checked);
 
