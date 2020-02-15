@@ -63,7 +63,6 @@ window.ToDoList = {
     getTaskRow: function (task) {
         //spread operator (...)
         let formattedDeadline = new Date(...task.deadline).toLocaleDateString("ro");
-
         let checkedAttribute = task.done ? " checked" : "";
 
         return `<tr>
@@ -104,7 +103,7 @@ window.ToDoList = {
 
             ToDoList.updateTask(taskId, checked);
 
-        })
+        });
 
         $("#tasks-table").delegate(".delete-task", "click", function (event) {
             event.preventDefault();
@@ -114,7 +113,6 @@ window.ToDoList = {
         })
 
     }
-
 };
 
 ToDoList.getTasks();
